@@ -6,4 +6,52 @@
     android:layout_height="match_parent"
     tools:context="com.kalay.shift.shift.SignUpActivity">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="42dp"
+        android:layout_height="28dp"
+        android:text="שם :"
+        tools:layout_editor_absoluteX="326dp"
+        tools:layout_editor_absoluteY="190dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="305dp"
+        android:layout_height="96dp"
+        android:text="כעת עליך להזין את פרטיך האישיים בהתאם להוראות. "
+        tools:layout_editor_absoluteX="45dp"
+        tools:layout_editor_absoluteY="56dp" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="153dp"
+        tools:layout_editor_absoluteY="232dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="37dp"
+        android:layout_height="27dp"
+        android:text="מין :"
+        tools:layout_editor_absoluteX="331dp"
+        tools:layout_editor_absoluteY="308dp" />
+
+    <RadioButton
+        android:id="@+id/radioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="זכר"
+        tools:layout_editor_absoluteX="241dp"
+        tools:layout_editor_absoluteY="370dp" />
+
+    <RadioButton
+        android:id="@+id/radioButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="נקבה"
+        tools:layout_editor_absoluteX="61dp"
+        tools:layout_editor_absoluteY="370dp" />
 </android.support.constraint.ConstraintLayout>
