@@ -14,7 +14,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
     }
 
-    public void onNext(View v) {
+    public void onNextSignUp(View v) {
         Log.d("onNext","hello from on next");
         Intent intent = new Intent(getApplicationContext(), InterestsActivity.class);
         startActivity(intent);
