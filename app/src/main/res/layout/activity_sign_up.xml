@@ -51,21 +51,26 @@
             tools:layout_editor_absoluteX="331dp"
             tools:layout_editor_absoluteY="308dp" />
 
-        <RadioButton
-            android:id="@+id/male"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="זכר"
-            tools:layout_editor_absoluteX="241dp"
-            tools:layout_editor_absoluteY="370dp" />
+            android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/male"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="זכר"
+                tools:layout_editor_absoluteX="241dp"
+                tools:layout_editor_absoluteY="370dp" />
 
-        <RadioButton
-            android:id="@+id/female"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="נקבה"
-            tools:layout_editor_absoluteX="61dp"
-            tools:layout_editor_absoluteY="370dp" />
+            <RadioButton
+                android:id="@+id/female"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="נקבה"
+                tools:layout_editor_absoluteX="61dp"
+                tools:layout_editor_absoluteY="370dp" />
+        </RadioGroup>
 
         <Button
             android:id="@+id/button2"
