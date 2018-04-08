@@ -7,25 +7,30 @@
     tools:context="com.kalay.shift.shift.SignUpActivity">
 
     <LinearLayout
-        android:layout_width="386dp"
-        android:layout_height="554dp"
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textView1"
             android:layout_width="match_parent"
             android:layout_height="96dp"
             android:text="כעת עליך להזין את פרטיך האישיים בהתאם להוראות. "
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="16dp" />
+            tools:layout_editor_absoluteX="45dp"
+            tools:layout_editor_absoluteY="56dp" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="28dp"
-            android:text="שם :"
+            android:text="שם:"
             tools:layout_editor_absoluteX="326dp"
             tools:layout_editor_absoluteY="190dp" />
 
@@ -39,28 +44,40 @@
             tools:layout_editor_absoluteY="232dp" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="27dp"
-            android:text="מין :"
+            android:text="מין:"
             tools:layout_editor_absoluteX="331dp"
             tools:layout_editor_absoluteY="308dp" />
 
-        <RadioButton
-            android:id="@+id/radioButton"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="זכר"
-            tools:layout_editor_absoluteX="241dp"
-            tools:layout_editor_absoluteY="370dp" />
+            android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/male"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="זכר"
+                tools:layout_editor_absoluteX="241dp"
+                tools:layout_editor_absoluteY="370dp" />
 
-        <RadioButton
-            android:id="@+id/radioButton2"
+            <RadioButton
+                android:id="@+id/female"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="נקבה"
+                tools:layout_editor_absoluteX="61dp"
+                tools:layout_editor_absoluteY="370dp" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/button2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="נקבה"
-            tools:layout_editor_absoluteX="61dp"
-            tools:layout_editor_absoluteY="370dp" />
+            android:onClick="onNextSignUp"
+            android:text="המשך" />
+
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>

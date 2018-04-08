@@ -8,6 +8,7 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
+    ////
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onStart(View v) {
-        Log.d("onStart","hello from on start");
+        Log.d("onStart","Hello from on start");
         Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
         startActivity(intent);
     }
