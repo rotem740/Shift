@@ -15,3 +15,9 @@
 app/proguard-rules.pro
 gradlew
 gradlew.bat
+*.pro
+gradlew
+gradlew.bat
+.idea/gradle.xml
+.idea/gradle.xml
+.idea/misc.xml
