@@ -7,3 +7,17 @@
 /build
 /captures
 .externalNativeBuild
+.idea/gradle.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/runConfigurations.xml
+.idea/vcs.xml
+app/proguard-rules.pro
+gradlew
+gradlew.bat
+*.pro
+gradlew
+gradlew.bat
+.idea/gradle.xml
+.idea/gradle.xml
+.idea/misc.xml
