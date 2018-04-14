@@ -17,6 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".AddPersonalTime"></activity>
+        <activity android:name=".SetAlert"></activity>
+        <activity android:name=".AlertMessage"></activity>
     </application>
 
 </manifest>
