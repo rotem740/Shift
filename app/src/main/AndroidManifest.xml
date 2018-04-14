@@ -18,6 +18,7 @@
         <activity android:name=".SignUpActivity"></activity>
         <activity android:name=".InterestsActivity"></activity>
         <activity android:name=".HomePageActivity"></activity>
+        <service android:name=".LocalService"></service>
     </application>
 
 </manifest>
