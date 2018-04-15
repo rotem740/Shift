@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onStart(View v) {
         Log.d("onStart","hello from on start");
-        Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+        Intent intent = new Intent(getApplicationContext(), AddPersonalTime.class);
         startActivity(intent);
     }
 
