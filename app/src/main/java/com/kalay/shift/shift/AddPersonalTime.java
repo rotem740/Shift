@@ -66,6 +66,12 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
         dialog.setColorTextButton(R.color.colorPrimaryDark);
         FragmentManager fragmentManager = getFragmentManager();
         dialog.show(fragmentManager, "");
+
+        // Create an instance of the dialog fragment and show it
+        RangeTimePickerDialog dialog1 = new RangeTimePickerDialog();
+        dialog.newInstance(R.color.CyanWater, R.color.White, R.color.Yellow, R.color.colorPrimary, true);
+        FragmentManager fragmentManager1 = getFragmentManager();
+        dialog.show(fragmentManager1, "");
     }
 
 
@@ -78,8 +84,8 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        boolean b = id == R.id.toolbar;
-        if (b)
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.toolbar)
         {
             return true;
         }
@@ -92,6 +98,7 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
     {
         Toast.makeText(this, "Start: "+hourStart+":"+minuteStart+"\nEnd: "+hourEnd+":"+minuteEnd, Toast.LENGTH_SHORT).show();
     }
+
 
 
 
