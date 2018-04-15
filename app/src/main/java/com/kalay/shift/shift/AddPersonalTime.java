@@ -11,7 +11,10 @@ import android.widget.Spinner;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 import com.mcsoft.timerangepickerdialog.RangeTimePickerDialog;
+import com.kalay.shift.shift.SharedPreferencesManager;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by romdolinger on 4/14/18.
@@ -19,17 +22,30 @@ import com.mcsoft.timerangepickerdialog.RangeTimePickerDialog;
 
 public class AddPersonalTime extends AppCompatActivity implements RangeTimePickerDialog.ISelectedTime {
 
+    SharedPreferencesManager sharedPreferencesManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_time);
         //create a list of items for the spinner.
-        Integer[] items = new Integer[]{1,2,3};
+        List<Object> myList = new ArrayList<>();
+        sharedPreferencesManager = SharedPreferencesManager.getInstance();
+        int i = 100;
+        while (true) {
+            try {
+                myList.add(sharedPreferencesManager.getStoredData(this, getString(i)));
+            }
+             catch (Exception e){
+                break;
+            }
+            i++;
+
+        }
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
         Spinner dropdown  = findViewById(R.id.spinner);
         //There are multiple variations of this, but this is the basic variant.
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        ArrayAdapter<Object> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, myList);
         //set the spinners adapter to the previously created one.
         dropdown.setAdapter(adapter);
 
