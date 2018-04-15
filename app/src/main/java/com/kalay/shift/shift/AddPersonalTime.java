@@ -1,11 +1,9 @@
 package com.kalay.shift.shift;
 
+import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.support.v7.app.AppCompatActivity;
@@ -35,73 +33,45 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
         //set the spinners adapter to the previously created one.
         dropdown.setAdapter(adapter);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                showCustomDialogTimePicker();
-            }
-        });
-    }
-
-    public void showCustomDialogTimePicker()
-    {
+        // Create an instance of the dialog fragment and show it
         // Create an instance of the dialog fragment and show it
         RangeTimePickerDialog dialog = new RangeTimePickerDialog();
         dialog.newInstance();
-        dialog.setIs24HourView(false);
-        dialog.setRadiusDialog(20);
-        dialog.setTextTabStart("Start");
-        dialog.setTextTabEnd("End");
-        dialog.setTextBtnPositive("Accept");
-        dialog.setTextBtnNegative("Close");
-        dialog.setValidateRange(false);
-        dialog.setColorBackgroundHeader(R.color.colorPrimary);
-        dialog.setColorBackgroundTimePickerHeader(R.color.colorPrimary);
-        dialog.setColorTextButton(R.color.colorPrimaryDark);
+        dialog.setRadiusDialog(20); // Set radius of dialog (default is 50)
+        dialog.setIs24HourView(true); // Indicates if the format should be 24 hours
+        dialog.setColorBackgroundHeader(R.color.colorPrimary); // Set Color of Background header dialog
+        dialog.setColorTextButton(R.color.colorPrimaryDark); // Set Text color of button
         FragmentManager fragmentManager = getFragmentManager();
         dialog.show(fragmentManager, "");
 
-        // Create an instance of the dialog fragment and show it
-        RangeTimePickerDialog dialog1 = new RangeTimePickerDialog();
-        dialog.newInstance(R.color.CyanWater, R.color.White, R.color.Yellow, R.color.colorPrimary, true);
-        FragmentManager fragmentManager1 = getFragmentManager();
-        dialog.show(fragmentManager1, "");
+
     }
+
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        super.onActivityResult(requestCode, resultCode, data);
+            if (resultCode == Activity.RESULT_OK)
+            {
+                if (data.getExtras().containsKey(RangeTimePickerDialog.HOUR_START))
+                {
+                    int hourStart = data.getExtras().getInt(RangeTimePickerDialog.HOUR_START);
+                    int hourEnd = data.getExtras().getInt(RangeTimePickerDialog.HOUR_END);
+                    int minuteStart = data.getExtras().getInt(RangeTimePickerDialog.MINUTE_START);
+                    int minuteEnd = data.getExtras().getInt(RangeTimePickerDialog.MINUTE_END);
 
-        //noinspection SimplifiableIfStatement
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.toolbar)
-        {
-            return true;
+                }
         }
-
-        return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onSelectedTime(int hourStart, int minuteStart, int hourEnd, int minuteEnd)
     {
         Toast.makeText(this, "Start: "+hourStart+":"+minuteStart+"\nEnd: "+hourEnd+":"+minuteEnd, Toast.LENGTH_SHORT).show();
     }
-
-
-
-
 
 
 }
