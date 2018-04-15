@@ -2,6 +2,7 @@ package com.kalay.shift.shift;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
@@ -16,7 +17,6 @@ public class prefrencesChangesActivity extends AppCompatActivity {
 
         //read input array
         String names[] = {"גולף", "טניס", "שחייה"};
-        System.out.println("ספורט:");
         for (int i=0; i< names.length ;i++)
         {
             //create the UI check box
