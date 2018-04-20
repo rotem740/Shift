@@ -11,16 +11,18 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
+
 public class LocalService extends Service {
 
     private NotificationManager mNM;
     private int NOTIFICATION = 0;
+    private boolean done = false;
+
 
     public class LocalBinder extends Binder {
         LocalService getService() {
@@ -32,30 +34,25 @@ public class LocalService extends Service {
     public void onCreate() {
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         Calendar today = Calendar.getInstance();
-        int hour = 22;
-        int minute = 5;
+        int hour = 13;
+        int minute = 19;
         int second = 0;
         today.set(Calendar.HOUR_OF_DAY, hour);
         today.set(Calendar.MINUTE, minute);
         today.set(Calendar.SECOND, second);
-
         Timer timer = new Timer();
-        timer.schedule(new MyNotificationManager(this), today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
+        if (!done)
+            timer.schedule(new MyNotificationManager(this), today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
+        else
+            done = true;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("LocalService", "Received start id " + startId + ": " + intent);
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
-    @Override
-    public void onDestroy() {
-
-        mNM.cancel(NOTIFICATION);
-
-        Toast.makeText(this, "The notification service has stopped", Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -87,8 +84,8 @@ public class MyNotificationManager extends TimerTask {
                     .setSound(soundUri)
                     .setPriority(Notification.PRIORITY_MAX)
                     .build();
+            startForeground(NOTIFICATION, notification);
             mNM.notify(NOTIFICATION, notification);
-
-        }
+     }
     }
 }
