@@ -14,14 +14,13 @@ import android.util.Log;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
+
 
 
 public class LocalService extends Service {
 
     private NotificationManager mNM;
     private int NOTIFICATION = 0;
-    private boolean done = false;
 
 
     public class LocalBinder extends Binder {
@@ -34,22 +33,36 @@ public class LocalService extends Service {
     public void onCreate() {
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         Calendar today = Calendar.getInstance();
-        int hour = 13;
-        int minute = 19;
+        int hour = 19;
+        int minute = 49;
         int second = 0;
         today.set(Calendar.HOUR_OF_DAY, hour);
         today.set(Calendar.MINUTE, minute);
         today.set(Calendar.SECOND, second);
         Timer timer = new Timer();
-        if (!done)
-            timer.schedule(new MyNotificationManager(this), today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
-        else
-            done = true;
+        timer.schedule(new MyNotificationManager(this), today.getTime());
+    }
+
+    @Override
+    public void onDestroy(){
+        Log.i("LocalService", "onDestroy");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("LocalService", "Received start id " + startId + ": " + intent);
+        PendingIntent contentIntent = null;
+        Notification notification = new Notification.Builder(this)
+                .setTicker("Shift פועל")
+                .setSmallIcon(R.drawable.notification_permanent_logo)
+                .setWhen(System.currentTimeMillis())
+                .setContentTitle("Shift פועל")
+                .setContentText("ישומון ההתראות פעיל כעת")
+                .setContentIntent(contentIntent)
+                .setPriority(Notification.PRIORITY_MAX)
+                .build();
+        startForeground(10, notification);
+
         return START_STICKY;
     }
 
@@ -64,18 +77,19 @@ public class LocalService extends Service {
 
 public class MyNotificationManager extends TimerTask {
 
-    Context ctx;
+     Context ctx;
 
      MyNotificationManager(Context _ctx) {
          ctx = _ctx;
      }
+
      public void run() {
          CharSequence text = "נראה לנו שזה הזמן המתאים!";
          CharSequence title = "מתי בפעם האחרונה יצאת לטיול?";
          Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            PendingIntent contentIntent = null;
-            Notification notification = new Notification.Builder(ctx)
-                    .setSmallIcon(R.drawable.ic_launcher_background)
+         PendingIntent contentIntent = null;
+         Notification notification = new Notification.Builder(ctx)
+                    .setSmallIcon(R.drawable.notification_logo)
                     .setTicker(text)
                     .setWhen(System.currentTimeMillis())
                     .setContentTitle(title)
@@ -84,8 +98,8 @@ public class MyNotificationManager extends TimerTask {
                     .setSound(soundUri)
                     .setPriority(Notification.PRIORITY_MAX)
                     .build();
-            startForeground(NOTIFICATION, notification);
-            mNM.notify(NOTIFICATION, notification);
+
+         mNM.notify(NOTIFICATION, notification);
      }
     }
 }
