@@ -7,11 +7,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 import com.mcsoft.timerangepickerdialog.RangeTimePickerDialog;
-import com.kalay.shift.shift.SharedPreferencesManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,16 +31,26 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
         //create a list of items for the spinner.
         List<Object> myList = new ArrayList<>();
         sharedPreferencesManager = SharedPreferencesManager.getInstance();
+        // Arbitrary value, this variable represents the first key of the alerts data series.
+        //ERROR: When one data is deleted, the catch breaks the loop.
         int i = 100;
         while (true) {
             try {
                 myList.add(sharedPreferencesManager.getStoredData(this, getString(i)));
             }
-             catch (Exception e){
+            catch (Exception e){
                 break;
             }
             i++;
-
+        }
+        //read input array
+        String names[] = {"שבת", "שישי", "חמישי", "רביעי" ,"שלישי", "שני",  "ראשון"};
+        for (int j = 0; j < names.length ; j++) {
+            //create the UI check box
+            final LinearLayout ll = findViewById(R.id.linearLayoutId);
+            CheckBox cb = new CheckBox(getApplicationContext());
+            cb.setText(names[j]);
+            ll.addView(cb);
         }
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
         Spinner dropdown  = findViewById(R.id.spinner);
@@ -48,7 +58,6 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
         ArrayAdapter<Object> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, myList);
         //set the spinners adapter to the previously created one.
         dropdown.setAdapter(adapter);
-
         FloatingActionButton b1=(FloatingActionButton) findViewById(R.id.fab);
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,8 +77,7 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
 
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
             if (resultCode == Activity.RESULT_OK)
             {
@@ -79,15 +87,14 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
                     int hourEnd = data.getExtras().getInt(RangeTimePickerDialog.HOUR_END);
                     int minuteStart = data.getExtras().getInt(RangeTimePickerDialog.MINUTE_START);
                     int minuteEnd = data.getExtras().getInt(RangeTimePickerDialog.MINUTE_END);
-                    Toast.makeText(AddPersonalTime.this,"W",Toast.LENGTH_LONG).show();
+                    //Toast.makeText(AddPersonalTime.this,"W",Toast.LENGTH_LONG).show();
                 }
         }
     }
 
 
     @Override
-    public void onSelectedTime(int hourStart, int minuteStart, int hourEnd, int minuteEnd)
-    {
+    public void onSelectedTime(int hourStart, int minuteStart, int hourEnd, int minuteEnd) {
         Toast.makeText(this, "Start: "+hourStart+":"+minuteStart+"\nEnd: "+hourEnd+":"+minuteEnd, Toast.LENGTH_SHORT).show();
     }
 
