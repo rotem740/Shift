@@ -9,10 +9,10 @@
     <LinearLayout
         android:id="@+id/linearLayoutId"
         android:layout_width="203dp"
-        android:layout_height="322dp"
+        android:layout_height="326dp"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="104dp"
-        tools:layout_editor_absoluteY="366dp"></LinearLayout>
+        tools:layout_editor_absoluteY="362dp"></LinearLayout>
 
     <TextView
         android:id="@+id/textView2"

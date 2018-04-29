@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.support.v7.app.AppCompatActivity;
@@ -83,11 +84,20 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
             {
                 if (data.getExtras().containsKey(RangeTimePickerDialog.HOUR_START))
                 {
-                    int hourStart = data.getExtras().getInt(RangeTimePickerDialog.HOUR_START);
-                    int hourEnd = data.getExtras().getInt(RangeTimePickerDialog.HOUR_END);
-                    int minuteStart = data.getExtras().getInt(RangeTimePickerDialog.MINUTE_START);
-                    int minuteEnd = data.getExtras().getInt(RangeTimePickerDialog.MINUTE_END);
-                    //Toast.makeText(AddPersonalTime.this,"W",Toast.LENGTH_LONG).show();
+                    int [] arr = new int [4];
+                    arr[0] = data.getExtras().getInt(RangeTimePickerDialog.HOUR_START);
+                    arr[1] = data.getExtras().getInt(RangeTimePickerDialog.HOUR_END);
+                    arr[2] = data.getExtras().getInt(RangeTimePickerDialog.MINUTE_START);
+                    arr[3] = data.getExtras().getInt(RangeTimePickerDialog.MINUTE_END);
+                    int key = 300, count = 0;
+                    while (true) {
+                        if (sharedPreferencesManager.getStoredData(this, Integer.toString(key)) == null) {
+                            sharedPreferencesManager.storeData(this, Integer.toString(key), arr[count]);
+                            break;
+                        }
+                        key++;
+                        count++;
+                    }
                 }
         }
     }
