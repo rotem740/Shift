@@ -2,10 +2,16 @@ package com.kalay.shift.core;
 
 public class User {
     private String userName; 
-    private boolean gender; //true = female, false = male
+    private Gender gender;
 
-    public User(String userName, boolean gender){
+    public User(String userName, Gender gender){
         this.userName = userName;
         this.gender = gender;
+    }
+    public String getUserName() {
+        return userName;
+    }
+    public Gender getGender(){
+        return gender;
     }
 }
