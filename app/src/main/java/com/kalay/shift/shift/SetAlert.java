@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -31,18 +32,13 @@ public class SetAlert extends AppCompatActivity {
     }
 
     public void addD (View v) {
-        TextView textView1 = (TextView) v.findViewById(R.id.editText);
-        sharedPreferencesManager = SharedPreferencesManager.getInstance();
-        int key = 200;
-        while (true) {
-            if (sharedPreferencesManager.getStoredData(this, Integer.toString(key)) == null) {
-                sharedPreferencesManager.storeData(this, Integer.toString(key), textView1);
-                break;
-            }
-            key++;
+        EditText editText1 = (EditText) v.findViewById(R.id.editText);
+        int key = 1000;
+        String [] arr = {"DFdf", "fdfd"};
+        AlertsSaver alert = new AlertsSaver(editText1.getText().toString(), arr, arr);
         }
 
     }
 
 
-}
+

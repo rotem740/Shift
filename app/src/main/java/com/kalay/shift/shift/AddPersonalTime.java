@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.mcsoft.timerangepickerdialog.RangeTimePickerDialog;
 
@@ -24,7 +25,7 @@ import java.util.List;
 public class AddPersonalTime extends AppCompatActivity implements RangeTimePickerDialog.ISelectedTime {
 
     SharedPreferencesManager sharedPreferencesManager;
-
+    int i;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,13 +34,13 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
         List<Object> myList = new ArrayList<>();
         sharedPreferencesManager = SharedPreferencesManager.getInstance();
         // Arbitrary value, this variable represents the first key of the alerts data series.
-        //ERROR: When one data is deleted, the catch breaks the loop.
-        int i = 100;
+        i = 1000;
         while (true) {
             try {
-                myList.add(sharedPreferencesManager.getStoredData(this, getString(i)));
+                AlertsSaver alert = new AlertsSaver(getString(i));
+                myList.add(alert.getAlertText());
             }
-            catch (Exception e){
+            catch (Exception e) {
                 break;
             }
             i++;
@@ -76,28 +77,23 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
 
     }
 
+    public void onClick1(View v) {
+        //Not finished
+        //TextView checkBox = (checkBox) v.findViewById(R.id.linearLayoutId);
 
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-            if (resultCode == Activity.RESULT_OK)
-            {
-                if (data.getExtras().containsKey(RangeTimePickerDialog.HOUR_START))
-                {
-                    int [] arr = new int [4];
-                    arr[0] = data.getExtras().getInt(RangeTimePickerDialog.HOUR_START);
-                    arr[1] = data.getExtras().getInt(RangeTimePickerDialog.HOUR_END);
-                    arr[2] = data.getExtras().getInt(RangeTimePickerDialog.MINUTE_START);
-                    arr[3] = data.getExtras().getInt(RangeTimePickerDialog.MINUTE_END);
-                    int key = 300, count = 0;
-                    while (true) {
-                        if (sharedPreferencesManager.getStoredData(this, Integer.toString(key)) == null) {
-                            sharedPreferencesManager.storeData(this, Integer.toString(key), arr[count]);
-                            break;
-                        }
-                        key++;
-                        count++;
-                    }
+            if (resultCode == Activity.RESULT_OK) {
+                if (data.getExtras().containsKey(RangeTimePickerDialog.HOUR_START)) {
+                    AlertsSaver alert = new AlertsSaver(Integer.toString(i));
+                    String [] arr = new String[2];
+                    arr[0] = Integer.toString(data.getExtras().getInt(RangeTimePickerDialog.HOUR_START)) + ":" +
+                            Integer.toString(data.getExtras().getInt(RangeTimePickerDialog.MINUTE_START));
+                    arr[1] = Integer.toString(data.getExtras().getInt(RangeTimePickerDialog.HOUR_END)) + ":" +
+                            Integer.toString(data.getExtras().getInt(RangeTimePickerDialog.MINUTE_END));
+                    alert.setHours(arr);
                 }
         }
     }
