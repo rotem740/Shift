@@ -9,7 +9,7 @@ import java.util.List;
  * Created by romdolinger on 5/4/18.
  */
 
-public class AlertsSaver extends AppCompatActivity {
+public class AlertsSaver {
 
     private List<Object> alert;
     private String key;
@@ -19,40 +19,40 @@ public class AlertsSaver extends AppCompatActivity {
     private static Activity activity;
     private static SharedPreferencesManager sharedPreferencesManager = SharedPreferencesManager.getInstance();
 
-    public AlertsSaver(String alert, String[] hours_arr, String [] days_arr) {
+    public AlertsSaver(Activity activity,String alert, String[] hours_arr, String [] days_arr) {
         if (alert != null && hours_arr.length == 2 && days_arr != null) {
             this.alert.add(alert);
             this.alert.add(days_arr);
             this.alert.add(hours_arr);
-            this.key = this.sharedPreferencesManager.nextEmpty(this);
-            this.sharedPreferencesManager.storeData(this, this.key, this.alert);
+            this.key = this.sharedPreferencesManager.nextEmpty(activity);
+            this.sharedPreferencesManager.storeData(activity, this.key, this.alert);
         }
 
     }
 
-    public AlertsSaver(String key) {
-        List<Object> alertGet = (List) sharedPreferencesManager.getStoredData(this, key);
+    public AlertsSaver(Activity activity, String key) {
+        List<Object> alertGet = (List) sharedPreferencesManager.getStoredData(activity, key);
         this.alert.add(alertGet.get(info));
         this.alert.add(alertGet.get(days));
         this.alert.add(alertGet.get(days));
         this.key = key;
     }
 
-    public void setInfo(String userInfo) {
+    public void setInfo(Activity activity, String userInfo) {
         this.alert.set(info, userInfo);
-        sharedPreferencesManager.storeData(this, this.key, this.alert);
+        sharedPreferencesManager.storeData(activity, this.key, this.alert);
 
     }
 
-    public void setHours(String [] userInfo) {
+    public void setHours(Activity activity, String [] userInfo) {
         this.alert.set(hours, userInfo);
-        sharedPreferencesManager.storeData(this, this.key, this.alert);
+        sharedPreferencesManager.storeData(activity, this.key, this.alert);
 
     }
 
-    public void setDays(String [] userInfo) {
+    public void setDays(Activity activity, String [] userInfo) {
         this.alert.set(days, userInfo);
-        sharedPreferencesManager.storeData(this, this.key, this.alert);
+        sharedPreferencesManager.storeData(activity, this.key, this.alert);
 
     }
 
@@ -96,8 +96,8 @@ public class AlertsSaver extends AppCompatActivity {
         days = daysUser;
     }
 
-    public void deleteAlert() {
-        sharedPreferencesManager.deleteAlert(this, this.key);
+    public void deleteAlert(Activity activity) {
+        sharedPreferencesManager.deleteAlert(activity, this.key);
     }
 
     public static String findByContent(Activity activity, String alertInfo) {

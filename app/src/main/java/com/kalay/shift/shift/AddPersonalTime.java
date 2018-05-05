@@ -37,7 +37,7 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
         i = 1000;
         while (true) {
             try {
-                AlertsSaver alert = new AlertsSaver(getString(i));
+                AlertsSaver alert = new AlertsSaver(this, getString(i));
                 myList.add(alert.getAlertText());
             }
             catch (Exception e) {
@@ -87,13 +87,13 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
         super.onActivityResult(requestCode, resultCode, data);
             if (resultCode == Activity.RESULT_OK) {
                 if (data.getExtras().containsKey(RangeTimePickerDialog.HOUR_START)) {
-                    AlertsSaver alert = new AlertsSaver(Integer.toString(i));
+                    AlertsSaver alert = new AlertsSaver(this,Integer.toString(i));
                     String [] arr = new String[2];
                     arr[0] = Integer.toString(data.getExtras().getInt(RangeTimePickerDialog.HOUR_START)) + ":" +
                             Integer.toString(data.getExtras().getInt(RangeTimePickerDialog.MINUTE_START));
                     arr[1] = Integer.toString(data.getExtras().getInt(RangeTimePickerDialog.HOUR_END)) + ":" +
                             Integer.toString(data.getExtras().getInt(RangeTimePickerDialog.MINUTE_END));
-                    alert.setHours(arr);
+                    alert.setHours(this, arr);
                 }
         }
     }

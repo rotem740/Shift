@@ -35,7 +35,8 @@ public class SetAlert extends AppCompatActivity {
         EditText editText1 = (EditText) v.findViewById(R.id.editText);
         int key = 1000;
         String [] arr = {"DFdf", "fdfd"};
-        AlertsSaver alert = new AlertsSaver(editText1.getText().toString(), arr, arr);
+        // Example
+        AlertsSaver alert = new AlertsSaver(this, editText1.getText().toString(), arr, arr);
         }
 
     }
