@@ -1,26 +1,35 @@
 package com.kalay.shift.shift;
-
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 import java.util.Calendar;
-import java.util.Timer;
+import java.util.Random;
 import java.util.TimerTask;
-
 
 
 public class LocalService extends Service {
 
     private NotificationManager mNM;
     private int NOTIFICATION = 0;
+
+    private int MAXHOUR = 19;
+    private int MINHOUR = 7;
+    Intent myIntent = new Intent(this , MyNotificationManager.class);
+    AlarmManager alarmManager;
+    PendingIntent pintent;
+    //PendingIntent pintent = PendingIntent.getBroadcast( this, 0, new Intent("com.blah.blah.somemessage"), 0 );
+    //PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
 
 
     public class LocalBinder extends Binder {
@@ -32,15 +41,46 @@ public class LocalService extends Service {
     @Override
     public void onCreate() {
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        Calendar today = Calendar.getInstance();
-        int hour = 19;
-        int minute = 49;
-        int second = 0;
-        today.set(Calendar.HOUR_OF_DAY, hour);
-        today.set(Calendar.MINUTE, minute);
-        today.set(Calendar.SECOND, second);
-        Timer timer = new Timer();
-        timer.schedule(new MyNotificationManager(this), today.getTime());
+
+        pintent = PendingIntent.getBroadcast( this, 0, new Intent("com.blah.blah.somemessage"), 0 );
+
+
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            @Override public void onReceive( Context context, Intent _ )
+            {
+                //context.unregisterReceiver( this ); // this == BroadcastReceiver, not Activity
+                Log.v("testAlarm","got here!");
+
+                CharSequence text = "נראה לנו שזה הזמן המתאים!";
+                CharSequence title = "מתי בפעם האחרונה יצאת לטיול?";
+                Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                PendingIntent contentIntent = null;
+                Notification notification = new Notification.Builder(context)
+                        .setSmallIcon(R.drawable.notification_logo)
+                        .setTicker(text)
+                        .setWhen(System.currentTimeMillis())
+                        .setContentTitle(title)
+                        .setContentText(text)
+                        .setContentIntent(contentIntent)
+                        .setSound(soundUri)
+                        .setPriority(Notification.PRIORITY_MAX)
+                        .build();
+
+                mNM.notify(NOTIFICATION, notification);
+                TriggerNextAlarm();
+
+            }
+        };
+        this.registerReceiver(receiver, new IntentFilter("com.blah.blah.somemessage") );
+        TriggerNextAlarm();
+
+    }
+
+    private void TriggerNextAlarm() {
+        alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        Calendar today = GetNotificationTime();
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, today.getTimeInMillis(), AlarmManager.INTERVAL_DAY , pintent);
+
     }
 
     @Override
@@ -75,31 +115,51 @@ public class LocalService extends Service {
     private final IBinder mBinder = new LocalBinder();
 
 
-public class MyNotificationManager extends TimerTask {
+    public Calendar GetNotificationTime() {
+        Calendar today = Calendar.getInstance();
 
-     Context ctx;
+        Random rnd = new Random();
+        int hour;
 
-     MyNotificationManager(Context _ctx) {
-         ctx = _ctx;
-     }
+        hour = (rnd.nextInt(MAXHOUR - MINHOUR) + 1 + MINHOUR);
+        today.set(Calendar.HOUR_OF_DAY, hour);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        // add one day to the date/calendar
+        today.add(Calendar.DAY_OF_YEAR, 1);
+        Log.i("LocalService", today.toString());
 
-     public void run() {
-         CharSequence text = "נראה לנו שזה הזמן המתאים!";
-         CharSequence title = "מתי בפעם האחרונה יצאת לטיול?";
-         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-         PendingIntent contentIntent = null;
-         Notification notification = new Notification.Builder(ctx)
-                    .setSmallIcon(R.drawable.notification_logo)
-                    .setTicker(text)
-                    .setWhen(System.currentTimeMillis())
-                    .setContentTitle(title)
-                    .setContentText(text)
-                    .setContentIntent(contentIntent)
-                    .setSound(soundUri)
-                    .setPriority(Notification.PRIORITY_MAX)
-                    .build();
+        return today;
 
-         mNM.notify(NOTIFICATION, notification);
-     }
+    }
+
+
+    public class MyNotificationManager extends TimerTask {
+
+         Context ctx;
+
+         MyNotificationManager(Context _ctx) {
+             ctx = _ctx;
+         }
+
+         public void run() {
+             CharSequence text = "נראה לנו שזה הזמן המתאים!";
+             CharSequence title = "מתי בפעם האחרונה יצאת לטיול?";
+             Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+             PendingIntent contentIntent = null;
+             Notification notification = new Notification.Builder(ctx)
+                        .setSmallIcon(R.drawable.notification_logo)
+                        .setTicker(text)
+                        .setWhen(System.currentTimeMillis())
+                        .setContentTitle(title)
+                        .setContentText(text)
+                        .setContentIntent(contentIntent)
+                        .setSound(soundUri)
+                        .setPriority(Notification.PRIORITY_MAX)
+                        .build();
+
+             mNM.notify(NOTIFICATION, notification);
+
+         }
     }
 }
