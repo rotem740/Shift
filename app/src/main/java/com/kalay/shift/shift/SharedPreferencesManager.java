@@ -41,7 +41,7 @@ public class SharedPreferencesManager {
 
     public String nextEmpty (Activity activity) {
         SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
-        int key = 1000;
+        int key = AlertsSaver.startKey;
         while (true) {
             try {
                 sharedPref.getString(Integer.toString(key), null);
@@ -80,7 +80,7 @@ public class SharedPreferencesManager {
     }
 
     public String returnKey(Activity activity, String obj){
-        int key = 1000;
+        int key = AlertsSaver.startKey;
         SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
         List<String> s = Arrays.asList(sharedPref.getString(Integer.toString(key), null).split(","));
         while (s.get(0) != obj)  {
