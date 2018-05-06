@@ -37,6 +37,33 @@ public class SharedPreferencesManager {
         return sharedPref.getString(key, null);
     }
 
+    public String nextEmpty (Activity activity) {
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        int key = 1000;
+        while (true) {
+            try {
+                sharedPref.getString(Integer.toString(key), null);
+            }
+            catch (Exception e) {
+                break;
+            }
+            key++;
+        }
+        return Integer.toString(key);
+    }
+
+    public void deleteAlert(Activity activity, String key) {
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(key, null);
+        editor.commit();
+    }
+
+    public String findByInfo(Activity activity, String info) {
+        //Build only!
+        return "1000";
+    }
+
     public void storeData(Activity activity, Map<String, Object> keyDataMap) {
         SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
