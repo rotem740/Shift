@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -74,6 +76,19 @@ public class SharedPreferencesManager {
             it.remove(); // avoids a ConcurrentModificationException
         }
         editor.commit();
+
     }
 
+    public String returnKey(Activity activity, String obj){
+        int key = 1000;
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        List<String> s = Arrays.asList(sharedPref.getString(Integer.toString(key), null).split(","));
+        while (s.get(0) != obj)  {
+            if (s == null)
+                return "Not Exist!";
+            key++;
+            s = Arrays.asList(sharedPref.getString(Integer.toString(key), null).split(","));
+        }
+        return Integer.toString(key);
+    }
 }
