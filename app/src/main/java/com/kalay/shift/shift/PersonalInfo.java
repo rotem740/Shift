@@ -3,6 +3,7 @@ package com.kalay.shift.shift;
 
 import android.app.Activity;
 
+import java.util.ArrayList;
 import java.util.List;
 /**
  * Created by romdolinger on 5/5/18.
@@ -16,6 +17,7 @@ public class PersonalInfo  {
     private static String key = "2000";
 
     public PersonalInfo(Activity activity, String name, String gender) {
+        this.info = new ArrayList<>();
         this.info.add(name);
         this.info.add(gender);
         sharedPreferencesManager.storeData(activity, key, this.info);

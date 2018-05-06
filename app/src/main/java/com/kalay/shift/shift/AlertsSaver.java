@@ -3,6 +3,7 @@ package com.kalay.shift.shift;
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,6 +12,7 @@ import java.util.List;
 
 public class AlertsSaver {
 
+    private static List<Object> deleted;
     private List<Object> alert;
     private String key;
     private static int info=0;
@@ -21,13 +23,30 @@ public class AlertsSaver {
 
     public AlertsSaver(Activity activity,String alert, String[] hours_arr, String [] days_arr) {
         if (alert != null && hours_arr.length == 2 && days_arr != null) {
+            this.alert = new ArrayList<>();
             this.alert.add(alert);
             this.alert.add(days_arr);
             this.alert.add(hours_arr);
             this.key = this.sharedPreferencesManager.nextEmpty(activity);
+            if (deleted.contains(this.key))
+                this.updateDeleted();
             this.sharedPreferencesManager.storeData(activity, this.key, this.alert);
         }
 
+    }
+
+    private void updateDeleted() {
+        boolean changed = false;
+        int place = 0;
+        for (Object obj: deleted) {
+            if (changed == false && obj.toString().equals(this.key)) {
+                deleted.set(place, null);
+                changed = true;
+            }
+            else if (changed == true)
+                this.alert.set(place - 1, obj);
+            place++;
+        }
     }
 
     public AlertsSaver(Activity activity, String key) {
@@ -36,6 +55,8 @@ public class AlertsSaver {
         this.alert.add(alertGet.get(days));
         this.alert.add(alertGet.get(days));
         this.key = key;
+        if (deleted.contains(this.key))
+            this.updateDeleted();
     }
 
     public void setInfo(Activity activity, String userInfo) {
@@ -97,7 +118,16 @@ public class AlertsSaver {
     }
 
     public void deleteAlert(Activity activity) {
+        deleted.add(this.key);
+        sharedPreferencesManager.storeData(activity, "3000", deleted);
         sharedPreferencesManager.deleteAlert(activity, this.key);
+    }
+
+    public static List<Object> returnDeltedPlaces(Activity activity) {
+        List<Object> toReturn = new ArrayList<>();
+        for (Object obj : deleted)
+            toReturn.add(obj);
+        return toReturn;
     }
 
     public static String findByContent(Activity activity, String alertInfo) {

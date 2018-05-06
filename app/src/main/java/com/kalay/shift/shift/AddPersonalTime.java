@@ -35,10 +35,13 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
         sharedPreferencesManager = SharedPreferencesManager.getInstance();
         // Arbitrary value, this variable represents the first key of the alerts data series.
         i = 1000;
+        List<Object> deleted = AlertsSaver.returnDeltedPlaces(this);
         while (true) {
             try {
-                AlertsSaver alert = new AlertsSaver(this, getString(i));
-                myList.add(alert.getAlertText());
+                if (!deleted.contains(getString(i))) {
+                    AlertsSaver alert = new AlertsSaver(this, getString(i));
+                    myList.add(alert.getAlertText());
+                }
             }
             catch (Exception e) {
                 break;
