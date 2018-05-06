@@ -17,7 +17,7 @@ public class AlertsSaver {
     private static int info=0;
     private static int hours=2;
     private static int days=1;
-    
+
     private static SharedPreferencesManager sharedPreferencesManager = SharedPreferencesManager.getInstance();
 
     public AlertsSaver(Activity activity,String alert, String[] hours_arr, String [] days_arr) {
