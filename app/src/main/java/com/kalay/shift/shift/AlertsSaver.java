@@ -1,7 +1,6 @@
 package com.kalay.shift.shift;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,7 @@ public class AlertsSaver {
     private static int info=0;
     private static int hours=2;
     private static int days=1;
-    private static Activity activity;
+    
     private static SharedPreferencesManager sharedPreferencesManager = SharedPreferencesManager.getInstance();
 
     public AlertsSaver(Activity activity,String alert, String[] hours_arr, String [] days_arr) {
