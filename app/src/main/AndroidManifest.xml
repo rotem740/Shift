@@ -18,6 +18,10 @@
         <activity android:name=".SignUpActivity"></activity>
         <activity android:name=".InterestsActivity"></activity>
         <activity android:name=".HomePageActivity"></activity>
+        <activity android:name=".interests.InterestCultureActivity"></activity>
+        <activity android:name=".interests.InterestSportsActivity"></activity>
+        <activity android:name=".interests.InterestFamilyActivity"></activity>
+        <activity android:name=".interests.InterestTripsActivity"></activity>
     </application>
 
 </manifest>
