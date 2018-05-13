@@ -12,13 +12,13 @@ import java.util.List;
 public class FieldsOfInterest {
     private static SharedPreferencesManager sharedPreferencesManager = SharedPreferencesManager.getInstance();
     private List<String> info;
-    private static String key = "4000";
+    private static final String fieldsKey = "4000";
 
     public FieldsOfInterest(Activity activity, List<String> fieldsOf) {
         this.info = new ArrayList<>();
         for (String obj : fieldsOf)
             this.info.add(obj);
-        sharedPreferencesManager.storeData(activity, key, this.info);
+        sharedPreferencesManager.storeData(activity, fieldsKey, this.info);
     }
 
     public List<String> getFields() {
@@ -29,11 +29,11 @@ public class FieldsOfInterest {
         this.info.clear();
         for (String obj : fieldsOf)
             this.info.add(obj);
-        sharedPreferencesManager.storeData(activity, key, this.info);
+        sharedPreferencesManager.storeData(activity, fieldsKey, this.info);
     }
 
     public void addField(Activity activity, String fieldsOf) {
         this.info.add(fieldsOf);
-        sharedPreferencesManager.storeData(activity, key, this.info);
+        sharedPreferencesManager.storeData(activity, fieldsKey, this.info);
     }
 }

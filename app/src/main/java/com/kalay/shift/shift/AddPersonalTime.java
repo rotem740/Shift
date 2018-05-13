@@ -11,7 +11,6 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.mcsoft.timerangepickerdialog.RangeTimePickerDialog;
 
@@ -25,7 +24,10 @@ import java.util.List;
 public class AddPersonalTime extends AppCompatActivity implements RangeTimePickerDialog.ISelectedTime {
 
     SharedPreferencesManager sharedPreferencesManager;
-    int i;
+    int i = AlertsSaver.startKey;
+    static  final String names[] = {"שבת", "שישי", "חמישי", "רביעי" ,"שלישי", "שני",  "ראשון"};
+    static CheckBox [] daysArr = new CheckBox[7];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +36,8 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
         List<Object> myList = new ArrayList<>();
         sharedPreferencesManager = SharedPreferencesManager.getInstance();
         // Arbitrary value, this variable represents the first key of the alerts data series.
-        i = 1000;
-        List<Object> deleted = AlertsSaver.returnDeltedPlaces(this);
+        List<String> deleted = AlertsSaver.returnDeltedPlaces(this);
+        //
         while (true) {
             try {
                 if (!deleted.contains(getString(i))) {
@@ -49,13 +51,13 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
             i++;
         }
         //read input array
-        String names[] = {"שבת", "שישי", "חמישי", "רביעי" ,"שלישי", "שני",  "ראשון"};
         for (int j = 0; j < names.length ; j++) {
             //create the UI check box
             final LinearLayout ll = findViewById(R.id.linearLayoutId);
-            CheckBox cb = new CheckBox(getApplicationContext());
+            CheckBox cb = new  CheckBox(getApplicationContext());
             cb.setText(names[j]);
             ll.addView(cb);
+            daysArr[j] = cb;
         }
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
         Spinner dropdown  = findViewById(R.id.spinner);
@@ -81,8 +83,14 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
     }
 
     public void onClick1(View v) {
-        //Not finished
-        //TextView checkBox = (checkBox) v.findViewById(R.id.linearLayoutId);
+        boolean [] days = new boolean[7];
+        for (int i = 0; i < days.length; i++)
+            days[i] = daysArr[i].isChecked();
+        Spinner spinner = (Spinner)findViewById(R.id.spinner);
+        String text = spinner.getSelectedItem().toString();
+        String key = AlertsSaver.findByContent(this, text);
+        AlertsSaver alert = new AlertsSaver(this, key);
+        alert.setDays(this, days);
 
     }
     @Override

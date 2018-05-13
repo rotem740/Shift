@@ -3,6 +3,7 @@ package com.kalay.shift.shift;
 import android.app.Activity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -11,21 +12,16 @@ import java.util.List;
 
 public class AlertsSaver {
 
-    private static List<Object> deleted;
-    private List<Object> alert;
+    private static List<String> deleted;
+    private Alert alert;
     private String key;
-    private static int info=0;
-    private static int hours=2;
-    private static int days=1;
+    public static final int startKey = 1000;
 
     private static SharedPreferencesManager sharedPreferencesManager = SharedPreferencesManager.getInstance();
 
-    public AlertsSaver(Activity activity,String alert, String[] hours_arr, String [] days_arr) {
+    public AlertsSaver(Activity activity,String alert, String[] hours_arr, boolean [] days_arr) {
         if (alert != null && hours_arr.length == 2 && days_arr != null) {
-            this.alert = new ArrayList<>();
-            this.alert.add(alert);
-            this.alert.add(days_arr);
-            this.alert.add(hours_arr);
+            this.alert = new Alert(alert, days_arr, hours_arr);
             this.key = this.sharedPreferencesManager.nextEmpty(activity);
             if (deleted.contains(this.key))
                 this.updateDeleted();
@@ -37,83 +33,70 @@ public class AlertsSaver {
     private void updateDeleted() {
         boolean changed = false;
         int place = 0;
-        for (Object obj: deleted) {
+        for (String obj: deleted) {
             if (changed == false && obj.toString().equals(this.key)) {
                 deleted.set(place, null);
                 changed = true;
             }
             else if (changed == true)
-                this.alert.set(place - 1, obj);
+                deleted.set(place - 1, obj);
             place++;
         }
     }
 
     public AlertsSaver(Activity activity, String key) {
         List<Object> alertGet = (List) sharedPreferencesManager.getStoredData(activity, key);
-        this.alert.add(alertGet.get(info));
-        this.alert.add(alertGet.get(days));
-        this.alert.add(alertGet.get(days));
+        this.alert = new Alert(alertGet.get(0).toString(), toBooleanArray(alertGet.get(1).toString()), alertGet.get(2).toString().split(","));
         this.key = key;
         if (deleted.contains(this.key))
             this.updateDeleted();
     }
 
+
+    private static boolean[] toBooleanArray (String str) {
+        String[] parts = str.split(",");
+        boolean[] array = new boolean[parts.length];
+        for (int i = 0; i < parts.length; i++)
+            array[i] = Boolean.parseBoolean(parts[i]);
+        return array;
+    }
     public void setInfo(Activity activity, String userInfo) {
-        this.alert.set(info, userInfo);
+        this.alert.setText(userInfo);
         sharedPreferencesManager.storeData(activity, this.key, this.alert);
 
     }
 
     public void setHours(Activity activity, String [] userInfo) {
-        this.alert.set(hours, userInfo);
+        this.alert.setHours(userInfo);
         sharedPreferencesManager.storeData(activity, this.key, this.alert);
 
     }
 
-    public void setDays(Activity activity, String [] userInfo) {
-        this.alert.set(days, userInfo);
-        sharedPreferencesManager.storeData(activity, this.key, this.alert);
+    public void setDays(Activity activity, boolean [] userInfo) {
+        if (userInfo.length == 7) {
+            this.alert.setDays(userInfo);
+            sharedPreferencesManager.storeData(activity, this.key, this.alert);
+        }
+        else
+            throw new RuntimeException("userInfo length must be 7. Length: " + userInfo.length);
 
     }
 
-    public List<Object> getAlert() {
+    public Alert getAlert() {
         return this.alert;
     }
 
     public Object getAlertText() {
-        return this.alert.get(info);
+        return this.alert.getText();
     }
 
-    public Object getAlertDays() {
-        return this.alert.get(days);
+    public boolean [] getAlertDays() {
+        return this.alert.getDays();
     }
+
 
     public Object getAlertHours() {
-        return this.alert.get(hours);
-    }
-
-    public static int getInfo() {
-        return info;
-    }
-
-    public static void setInfo(int infoUser) {
-        info = infoUser;
-    }
-
-    public static int getHours() {
-        return hours;
-    }
-
-    public static void setHours(int hoursUser) {
-        hours = hoursUser;
-    }
-
-    public static int getDays() {
-        return days;
-    }
-
-    public static void setDays(int daysUser) {
-        days = daysUser;
+        return this.alert.getHours();
     }
 
     public void deleteAlert(Activity activity) {
@@ -122,9 +105,9 @@ public class AlertsSaver {
         sharedPreferencesManager.deleteAlert(activity, this.key);
     }
 
-    public static List<Object> returnDeltedPlaces(Activity activity) {
-        List<Object> toReturn = new ArrayList<>();
-        for (Object obj : deleted)
+    public static List<String> returnDeltedPlaces(Activity activity) {
+        List<String> toReturn = new ArrayList<>();
+        for (String obj : deleted)
             toReturn.add(obj);
         return toReturn;
     }
@@ -139,12 +122,10 @@ public class AlertsSaver {
 
     @Override
     public String toString() {
-        String s = "Alert: [key: " + this.key + " ";
-        for (Object  part: this.alert) {
-            s += String.valueOf(part);
-        }
-        s += "]";
-        return s;
+        return "AlertsSaver{" +
+                "alert=" + alert +
+                ", key='" + key + '\'' +
+                '}';
     }
 }
 
