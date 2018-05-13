@@ -3,76 +3,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.kalay.shift.shift.InterestPage">
+    android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="fill_vertical"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="163dp"
-        android:layout_height="38dp"
-        android:text="תחומי עניין "
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="111dp"
-        tools:layout_editor_absoluteY="37dp"
-        tools:ignore="MissingConstraints" />
+        <Button
+            android:id="@+id/button7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="92dp"
-        android:layout_height="113dp"
-        android:onClick="first_interst"
-        android:text="טיולים "
-        android:textSize="18sp"
-        tools:layout_editor_absoluteX="82dp"
-        tools:layout_editor_absoluteY="164dp"
-        tools:ignore="MissingConstraints" />
+        <Button
+            android:id="@+id/button8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="92dp"
-        android:layout_height="113dp"
-        android:text="תרבות"
-        android:textSize="18sp"
-        android:onClick="second_interst"
-        tools:layout_editor_absoluteX="211dp"
-        tools:layout_editor_absoluteY="164dp"
-        tools:ignore="MissingConstraints" />
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="92dp"
-        android:layout_height="113dp"
-        android:text="ספורט"
-        android:textSize="18sp"
-        android:onClick="third_interst"
-        tools:layout_editor_absoluteX="82dp"
-        tools:layout_editor_absoluteY="295dp"
-        tools:ignore="MissingConstraints" />
+        <Button
+            android:id="@+id/button10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="92dp"
-        android:layout_height="113dp"
-        android:text="משפחה"
-        android:onClick="fourth_interst"
-        android:textSize="18sp"
-        tools:layout_editor_absoluteX="211dp"
-        tools:layout_editor_absoluteY="295dp"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="בחר את תחומי העניין שלך"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="62dp"
-        tools:layout_editor_absoluteY="103dp"
-        tools:ignore="MissingConstraints" />
-
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onNextInterests"
+            android:text="המשך" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
