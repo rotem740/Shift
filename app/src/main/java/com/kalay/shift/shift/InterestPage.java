@@ -11,7 +11,7 @@ public class InterestPage extends AppCompatActivity {
         setContentView(R.layout.activity_interests);
     }
     public void first_interst(View v){
-        Intent intent = new Intent(getApplicationContext(), testi.class);
+        Intent intent = new Intent(getApplicationContext(), activity_interest_colture.class);
         startActivity(intent);
     }
     public void second_interst(View x){
