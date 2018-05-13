@@ -12,20 +12,20 @@ import java.util.List;
 
 public class AlertsSaver {
 
-    private static List<String> deleted;
+    private static List<String> deleted = new ArrayList<>();
     private Alert alert;
     private String key;
     public static final int startKey = 1000;
 
     private static SharedPreferencesManager sharedPreferencesManager = SharedPreferencesManager.getInstance();
 
-    public AlertsSaver(Activity activity,String alert, String[] hours_arr, boolean [] days_arr) {
+    public AlertsSaver(Activity activity, String alert, String[] hours_arr, boolean [] days_arr) {
         if (alert != null && hours_arr.length == 2 && days_arr != null) {
             this.alert = new Alert(alert, days_arr, hours_arr);
             this.key = this.sharedPreferencesManager.nextEmpty(activity);
             if (deleted.contains(this.key))
                 this.updateDeleted();
-            this.sharedPreferencesManager.storeData(activity, this.key, this.alert);
+            this.sharedPreferencesManager.storeData(activity, this.key, this.alert.toString());
         }
 
     }
@@ -45,15 +45,42 @@ public class AlertsSaver {
     }
 
     public AlertsSaver(Activity activity, String key) {
-        List<Object> alertGet = (List) sharedPreferencesManager.getStoredData(activity, key);
-        this.alert = new Alert(alertGet.get(0).toString(), toBooleanArray(alertGet.get(1).toString()), alertGet.get(2).toString().split(","));
-        this.key = key;
-        if (deleted.contains(this.key))
-            this.updateDeleted();
-    }
+            String ds = (String) sharedPreferencesManager.getStoredData(activity, key);
+            ds = ds.replace("days=", "");
+            ds = ds.replace("hours=", "");
+            ds = ds.replace("Alert", "");
+            ds = ds.replace("text=", "");
+            ds = ds.replace("{", "");
+            ds = ds.replace("}", "");
+            String alert = ds.substring(0, ds.indexOf(","));
+            ds = ds.replace(alert, "");
+            ds = ds.substring(2);
+            this.key = key;
+            String hour = ds.substring(0, ds.indexOf("],"));
+            ds.replace(hour, "");
+            hour = hour.replace("[", "");
+            hour = hour.replace("]", "");
+            ds = ds.replaceAll(" ", "");
+            boolean[] hours = toBooleanArray(hour);
+            ds = ds.replaceAll(ds.substring(0, ds.indexOf("],")), "");
+            ds = ds.replace("[", "");
+            ds = ds.replace("]", "");
+            ds = ds.substring(1);
+            this.alert = new Alert(alert, hours, ds.split(","));
+            boolean m = deleted.isEmpty();
+            if (m == true)
+                return;
+            else
+                if (deleted.contains(this.key))
+                    this.updateDeleted();
+
+        }
 
 
-    private static boolean[] toBooleanArray (String str) {
+
+
+
+    private static boolean[] toBooleanArray(String str) {
         String[] parts = str.split(",");
         boolean[] array = new boolean[parts.length];
         for (int i = 0; i < parts.length; i++)
@@ -99,10 +126,8 @@ public class AlertsSaver {
         return this.alert.getHours();
     }
 
-    public void deleteAlert(Activity activity) {
-        deleted.add(this.key);
-        sharedPreferencesManager.storeData(activity, "3000", deleted);
-        sharedPreferencesManager.deleteAlert(activity, this.key);
+    public static void deleteAlert(Activity activity, String key) {
+        sharedPreferencesManager.deleteAlert(activity, key);
     }
 
     public static List<String> returnDeltedPlaces(Activity activity) {

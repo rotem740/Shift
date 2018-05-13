@@ -44,10 +44,9 @@ public class Alert implements Serializable {
 
     @Override
     public String toString() {
-        return "Alert{" +
-                "text='" + text + '\'' +
-                ", days=" + Arrays.toString(days) +
-                ", hours=" + Arrays.toString(hours) +
-                '}';
+        return
+                 text +
+                "," + Arrays.toString(days) +
+                "," + Arrays.toString(hours);
     }
 }

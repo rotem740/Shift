@@ -42,14 +42,10 @@ public class SharedPreferencesManager {
     public String nextEmpty (Activity activity) {
         SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
         int key = AlertsSaver.startKey;
-        while (true) {
-            try {
-                sharedPref.getString(Integer.toString(key), null);
-            }
-            catch (Exception e) {
-                break;
-            }
-            key++;
+        String data = sharedPref.getString(Integer.toString(key), null);
+        while (data != null) {
+                key++;
+                data =  sharedPref.getString(Integer.toString(key), null);
         }
         return Integer.toString(key);
     }

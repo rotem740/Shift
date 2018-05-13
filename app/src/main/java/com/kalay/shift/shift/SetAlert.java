@@ -33,10 +33,12 @@ public class SetAlert extends AppCompatActivity {
 
     public void addD (View v) {
         EditText editText1 = (EditText) v.findViewById(R.id.editText);
-        int key = 1000;
+        String key = AlertsSaver.nextEmpty(this);
         String [] arr = {"DFdf", "fdfd"};
+        boolean [] bool1 = {true, false};
         // Example
-        AlertsSaver alert = new AlertsSaver(this, editText1.getText().toString(), arr, arr);
+        String text = editText1.getText().toString();
+        AlertsSaver alert = new AlertsSaver(this, text, arr, bool1);
         }
 
     }

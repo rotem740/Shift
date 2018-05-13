@@ -34,22 +34,25 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
         setContentView(R.layout.activity_personal_time);
         //create a list of items for the spinner.
         List<Object> myList = new ArrayList<>();
-        sharedPreferencesManager = SharedPreferencesManager.getInstance();
         // Arbitrary value, this variable represents the first key of the alerts data series.
         List<String> deleted = AlertsSaver.returnDeltedPlaces(this);
-        //
-        while (true) {
-            try {
-                if (!deleted.contains(getString(i))) {
-                    AlertsSaver alert = new AlertsSaver(this, getString(i));
-                    myList.add(alert.getAlertText());
-                }
-            }
-            catch (Exception e) {
-                break;
-            }
-            i++;
+        boolean [] b = {true, false};
+        String [] arr = {"DFfd", "Dff"};
+        AlertsSaver alert;
+        alert = new AlertsSaver(this, "DFfdffd", arr, b);
+         while (true) {
+             try {
+                 if (deleted.size() == 0 || (deleted.size() != 0 && !deleted.contains(getString(i)))) {
+                     alert = new AlertsSaver(this, Integer.toString(i));
+                     myList.add(alert.getAlertText());
+                 }
+                 i++;
+             }
+             catch (Exception e) {
+                 break;
+              }
         }
+
         //read input array
         for (int j = 0; j < names.length ; j++) {
             //create the UI check box
@@ -60,6 +63,7 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
             daysArr[j] = cb;
         }
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
+
         Spinner dropdown  = findViewById(R.id.spinner);
         //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<Object> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, myList);
@@ -87,7 +91,7 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
         for (int i = 0; i < days.length; i++)
             days[i] = daysArr[i].isChecked();
         Spinner spinner = (Spinner)findViewById(R.id.spinner);
-        String text = spinner.getSelectedItem().toString();
+        String text = spinner.toString();
         String key = AlertsSaver.findByContent(this, text);
         AlertsSaver alert = new AlertsSaver(this, key);
         alert.setDays(this, days);
