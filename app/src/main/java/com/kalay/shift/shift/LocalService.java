@@ -29,14 +29,9 @@ public class LocalService extends Service {
     private NotificationManager mNM;
     private int NOTIFICATION = 0;
 
-    //private int MAXHOUR = 19;
-    //private int MINHOUR = 7;
     AlarmManager alarmManager;
     PendingIntent pintent;
     int i = AlertsSaver.startKey;
-    //PendingIntent pintent = PendingIntent.getBroadcast( this, 0, new Intent("com.blah.blah.somemessage"), 0 );
-    //PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
-
 
     public class LocalBinder extends Binder {
         LocalService getService() {
@@ -46,42 +41,6 @@ public class LocalService extends Service {
 
     @Override
     public void onCreate() {
-        Activity activity = MainActivity.currActivity;
-        /*
-        List<Object> myList = new ArrayList<>();
-        // Arbitrary value, this variable represents the first key of the alerts data series.
-        List<String> deleted = AlertsSaver.returnDeltedPlaces(this);
-        boolean[] b = {true, false};
-        String[] arr = {"DFfd", "Dff"};
-        int i = 1000;
-        //AlertsSaver alert = new AlertsSaver(this, getString(i));
-        while (true) {
-            try {
-                if (deleted.size() == 0 || (deleted.size() != 0 && !deleted.contains(getString(i)))) {
-                    alert = new AlertsSaver(this, getString(i));
-                    myList.add(alert.getAlertText());
-                }
-                i++;
-            } catch (Exception e) {
-                break;
-            }
-        } */
-
-        List<String> deleted = AlertsSaver.returnDeltedPlaces(activity);
-        AlertsSaver alert;
-        List<AlertsSaver> myList = new ArrayList<>();
-        while (true) {
-            try {
-                if (deleted.size() == 0 || (deleted.size() != 0 && !deleted.contains(getString(i)))) {
-                    alert = new AlertsSaver(activity, Integer.toString(i));
-                    myList.add(alert);
-                }
-                i++;
-            }
-            catch (Exception e) {
-                break;
-            }
-        }
 
         mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
@@ -89,44 +48,61 @@ public class LocalService extends Service {
 
 
         BroadcastReceiver receiver = new BroadcastReceiver() {
+
             @Override
             public void onReceive(Context context, Intent _) {
                 //context.unregisterReceiver( this ); // this == BroadcastReceiver, not Activity
                 Log.v("testAlarm", "got here!");
 
-                CharSequence text = "נראה לנו שזה הזמן המתאים!";
-                CharSequence title = "מתי בפעם האחרונה יצאת לטיול?";
-                Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                PendingIntent contentIntent = null;
-                Notification notification = new Notification.Builder(context)
-                        //.setSmallIcon(R.drawable.notification_logo)
-                        .setTicker(text)
-                        .setWhen(System.currentTimeMillis())
-                        .setContentTitle(title)
-                        .setContentText(text)
-                        .setContentIntent(contentIntent)
-                        .setSound(soundUri)
-                        .setPriority(Notification.PRIORITY_MAX)
-                        .build();
-
-                mNM.notify(NOTIFICATION, notification);
-                TriggerNextAlarm();
+                Activity activity = MainActivity.currActivity;
+                List<String> deleted = AlertsSaver.returnDeltedPlaces(activity);
+                AlertsSaver alert;
+                List<AlertsSaver> myList = new ArrayList<>();
+                while (true) {
+                    try {
+                        if (deleted.size() == 0 || (deleted.size() != 0 && !deleted.contains(getString(i)))) {
+                            alert = new AlertsSaver(activity, Integer.toString(i));
+                            myList.add(alert);
+                        }
+                        i++;
+                    }
+                    catch (Exception e) {
+                        break;
+                    }
+                }
+                for (int i = 0; i < myList.size(); i++) {
+                    Calendar now = Calendar.getInstance();
+                    if (myList.get(i).getAlertDays()[now.get(Calendar.DAY_OF_WEEK)]) {
+                        CharSequence text = myList.get(i).getAlertText();
+                        CharSequence title = "התראת Shift";
+                        String minHour = myList.get(i).getAlertHours()[0];
+                        String maxHour = myList.get(i).getAlertHours()[1];
+                        Calendar time = GetNotificationTime(Integer.parseInt(maxHour.substring(0, 1)), Integer.parseInt(minHour.substring(0, 1)));
+                        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                        PendingIntent contentIntent = null;
+                        Notification notification = new Notification.Builder(context)
+                                //.setSmallIcon(R.drawable.notification_logo)
+                                .setTicker(text)
+                                .setWhen(time.getTimeInMillis())
+                                .setContentTitle(title)
+                                .setContentText(text)
+                                .setContentIntent(contentIntent)
+                                .setSound(soundUri)
+                                .setPriority(Notification.PRIORITY_MAX)
+                                .build();
+                        mNM.notify(NOTIFICATION, notification);
+                    }
+                }
 
             }
         };
         this.registerReceiver(receiver, new IntentFilter("com.blah.blah.somemessage"));
-        TriggerNextAlarm();
+        TriggerTomorrowAlarmManager();
 
     }
 
-    private void TriggerNextAlarm() {
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Calendar today = GetNotificationTime();
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, today.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pintent);
 
-    }
-
-    private void TriggerTomorrowAlramManager() {
+    private void TriggerTomorrowAlarmManager() {
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Calendar tomorrow = GetNextTime();
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, tomorrow.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pintent);
@@ -145,7 +121,7 @@ public class LocalService extends Service {
         PendingIntent contentIntent = null;
         Notification notification = new Notification.Builder(this)
                 .setTicker("Shift פועל")
-                .setSmallIcon(R.drawable.notification_permanent_logo)
+                //.setSmallIcon(R.drawable.notification_permanent_logo)
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle("Shift פועל")
                 .setContentText("ישומון ההתראות פעיל כעת")
@@ -166,14 +142,14 @@ public class LocalService extends Service {
     private final IBinder mBinder = new LocalBinder();
 
 
-    public Calendar GetNotificationTime() {
+    public Calendar GetNotificationTime(int MAXHOUR, int MINHOUR) {
         Calendar today = Calendar.getInstance();
 
         Random rnd = new Random();
         int hour;
 
-        //hour = (rnd.nextInt(MAXHOUR - MINHOUR) + 1 + MINHOUR);
-        //today.set(Calendar.HOUR_OF_DAY, hour);
+        hour = (rnd.nextInt(MAXHOUR - MINHOUR) + 1 + MINHOUR);
+        today.set(Calendar.HOUR_OF_DAY, hour);
         today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
         // add one day to the date/calendar

@@ -11,11 +11,21 @@ public class Alert implements Serializable {
     private String text;
     private boolean [] days;
     private String [] hours;
+    private String alertTitle;
 
-    public Alert(String text, boolean[] days, String[] hours) {
+    public Alert(String text, boolean[] days, String[] hours, String alertTitle) {
         this.text = text;
         this.days = days;
         this.hours = hours;
+        this.alertTitle = alertTitle;
+    }
+
+    public String getAlertTitle() {
+        return alertTitle;
+    }
+
+    public void setAlertTitle(String alertTitle) {
+        this.alertTitle = alertTitle;
     }
 
     public String getText() {
@@ -45,7 +55,7 @@ public class Alert implements Serializable {
     @Override
     public String toString() {
         return
-                 text +
+                 text + "," + this.alertTitle +
                 "," + Arrays.toString(days) +
                 "," + Arrays.toString(hours);
     }

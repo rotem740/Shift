@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import org.w3c.dom.Element;
@@ -33,12 +34,16 @@ public class SetAlert extends AppCompatActivity {
 
     public void addD (View v) {
         EditText editText1 = (EditText) v.findViewById(R.id.editText);
+        EditText editText2 = (EditText) v.findViewById(R.id.editText);
         String key = AlertsSaver.nextEmpty(this);
-        String [] arr = {"DFdf", "fdfd"};
-        boolean [] bool1 = {true, false};
-        // Example
-        String text = editText1.getText().toString();
-        AlertsSaver alert = new AlertsSaver(this, text, arr, bool1);
+        String text1 = editText1.getText().toString();
+        String text2 = editText2.getText().toString();
+        if (text1 != null && text2 != null) {
+            AlertsSaver alert = new AlertsSaver(this, text1, AlertsSaver.hours, AlertsSaver.days, text2);
+            Toast.makeText(this, "ALERT " + text2 + " SAVED", Toast.LENGTH_SHORT).show();
+        }
+        else
+            Toast.makeText(this, "ONE OF THE FIELDS IS EMPTY", Toast.LENGTH_SHORT).show();
         }
 
     }

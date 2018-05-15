@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.security.spec.ECField;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -58,8 +59,25 @@ public class SharedPreferencesManager {
     }
 
     public String findByInfo(Activity activity, String info) {
-        //Build only!
-        return "1000";
+        int key = 1000;
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        String alert = sharedPref.getString(Integer.toString(key), null);
+        alert = alert.substring(0, alert.indexOf(","));
+        List<String> deleted = AlertsSaver.deleted;
+        while (true)  {
+            try {
+                key++;
+                if (deleted != null && !deleted.contains(key)) {
+                    String alert1 = sharedPref.getString(Integer.toString(key), null);
+                    if (alert1.equals(info))
+                        return Integer.toString(key);
+                }
+            }
+            catch (Exception e) {
+                break;
+            }
+        }
+        return "NOT EXSIST";
     }
 
     public void storeData(Activity activity, Map<String, Object> keyDataMap) {
