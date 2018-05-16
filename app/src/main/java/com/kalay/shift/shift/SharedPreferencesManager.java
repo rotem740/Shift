@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.security.spec.ECField;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;

@@ -52,6 +52,49 @@ public class LocalService extends Service {
             @Override
             public void onReceive(Context context, Intent _) {
                 //context.unregisterReceiver( this ); // this == BroadcastReceiver, not Activity
+<<<<<<< HEAD
+                Log.v("testAlarm", "got here!");
+
+                Activity activity = MainActivity.currActivity;
+                List<String> deleted = AlertsSaver.returnDeltedPlaces(activity);
+                AlertsSaver alert;
+                List<AlertsSaver> myList = new ArrayList<>();
+                while (true) {
+                    try {
+                        if (deleted.size() == 0 || (deleted.size() != 0 && !deleted.contains(getString(i)))) {
+                            alert = new AlertsSaver(activity, Integer.toString(i));
+                            myList.add(alert);
+                        }
+                        i++;
+                    }
+                    catch (Exception e) {
+                        break;
+                    }
+                }
+                for (int i = 0; i < myList.size(); i++) {
+                    Calendar now = Calendar.getInstance();
+                    if (myList.get(i).getAlertDays()[now.get(Calendar.DAY_OF_WEEK)]) {
+                        CharSequence text = myList.get(i).getAlertText();
+                        CharSequence title = "התראת Shift";
+                        String minHour = myList.get(i).getAlertHours()[0];
+                        String maxHour = myList.get(i).getAlertHours()[1];
+                        Calendar time = GetNotificationTime(Integer.parseInt(maxHour.substring(0, 1)), Integer.parseInt(minHour.substring(0, 1)));
+                        Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                        PendingIntent contentIntent = null;
+                        Notification notification = new Notification.Builder(context)
+                                //.setSmallIcon(R.drawable.notification_logo)
+                                .setTicker(text)
+                                .setWhen(time.getTimeInMillis())
+                                .setContentTitle(title)
+                                .setContentText(text)
+                                .setContentIntent(contentIntent)
+                                .setSound(soundUri)
+                                .setPriority(Notification.PRIORITY_MAX)
+                                .build();
+                        mNM.notify(NOTIFICATION, notification);
+                    }
+                }
+=======
                 Log.v("testAlarm","got here!");
 
                 CharSequence text = "נראה לנו שזה הזמן המתאים!";
@@ -59,7 +102,7 @@ public class LocalService extends Service {
                 Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 PendingIntent contentIntent = null;
                 Notification notification = new Notification.Builder(context)
-                        .setSmallIcon(R.drawable.notification_logo)
+                        //.setSmallIcon(R.drawable.notification_logo)
                         .setTicker(text)
                         .setWhen(System.currentTimeMillis())
                         .setContentTitle(title)
@@ -70,7 +113,7 @@ public class LocalService extends Service {
                         .build();
 
                 mNM.notify(NOTIFICATION, notification);
-                TriggerNextAlarm();
+>>>>>>> c4ea5c1a70ec576b560b3af46f987c3c326f5fc3
 
             }
         };

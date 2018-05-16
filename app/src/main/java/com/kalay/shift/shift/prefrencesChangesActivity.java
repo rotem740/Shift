@@ -1,15 +1,12 @@
 package com.kalay.shift.shift;
 
-import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 public class prefrencesChangesActivity extends AppCompatActivity {
     ArrayList<CheckBox> check1 = new ArrayList<CheckBox>();

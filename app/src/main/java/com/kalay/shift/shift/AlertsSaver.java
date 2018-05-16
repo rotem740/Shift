@@ -3,7 +3,6 @@ package com.kalay.shift.shift;
 import android.app.Activity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
