@@ -3,14 +3,10 @@ package com.kalay.shift.shift;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-
-import org.w3c.dom.Element;
 
 /**
  * Created by romdolinger on 4/14/18.
@@ -28,11 +24,13 @@ public class SetAlert extends AppCompatActivity {
     }
 
     public void moveToTime(View v) {
+        //todo moves to AddPersonalTime class
         Intent intent = new Intent(getApplicationContext(), AddPersonalTime.class);
         startActivity(intent);
     }
 
     public void addD (View v) {
+        //todo adds and saves the new alert
         EditText editText1 = (EditText) v.findViewById(R.id.editText);
         EditText editText2 = (EditText) v.findViewById(R.id.editText);
         String key = AlertsSaver.nextEmpty(this);

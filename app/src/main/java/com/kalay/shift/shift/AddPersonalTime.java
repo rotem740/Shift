@@ -1,11 +1,8 @@
 package com.kalay.shift.shift;
 
-import android.app.Activity;
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -24,7 +21,6 @@ import java.util.List;
 
 public class AddPersonalTime extends AppCompatActivity implements RangeTimePickerDialog.ISelectedTime {
 
-    SharedPreferencesManager sharedPreferencesManager;
     int i = AlertsSaver.startKey;
     static  final String names[] = {"שבת", "שישי", "חמישי", "רביעי" ,"שלישי", "שני",  "ראשון"};
     static CheckBox [] daysArr = new CheckBox[7];
@@ -38,15 +34,11 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
         //create a list of items for the spinner.
         List<Object> myList = new ArrayList<>();
         myList.add("Please select an Item");
-        // Arbitrary value, this variable represents the first key of the alerts data series.
         List<String> deleted = AlertsSaver.returnDeltedPlaces(this);
-        boolean [] b = {true, false};
-        String [] arr = {"DFfd", "Dff"};
         AlertsSaver alert;
-        keyList = new ArrayList<>();
-        alert = new AlertsSaver(this, "DFfdffd", arr, b, "fd");
          while (true) {
              try {
+                 //Creates alert array and key array
                  if (deleted.size() == 0 || (deleted.size() != 0 && !deleted.contains(getString(i)))) {
                      alert = new AlertsSaver(this, Integer.toString(i));
                      myList.add(alert.getAlertTitle());
@@ -93,6 +85,7 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
     }
 
     public void onClick1(View v) {
+        //todo save the updated alert days
         boolean [] days = new boolean[7];
         for (int i = 0; i < days.length; i++)
             days[i] = daysArr[i].isChecked();
@@ -100,7 +93,7 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
         if (listCount > 0) {
             AlertsSaver alert = new AlertsSaver(this, Integer.toString(keyList.get(listCount - 1)));
             alert.setDays(this, days);
-            Toast.makeText(this, "YOUR DAYS HAVE BEEN SAVES", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "YOUR DAYS HAVE BEEN SAVED", Toast.LENGTH_SHORT).show();
         }
         else
             Toast.makeText(this, "PLEASE SELECT AN ITEM", Toast.LENGTH_SHORT).show();
@@ -109,6 +102,7 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
 
     @Override
     public void onSelectedTime(int hourStart, int minuteStart, int hourEnd, int minuteEnd) {
+            //todo save the updated alert hours
             int listCount = dropdown.getSelectedItemPosition();
             if (listCount > 0) {
                 AlertsSaver alert = new AlertsSaver(this, Integer.toString(keyList.get(listCount - 1)));
@@ -123,8 +117,6 @@ public class AddPersonalTime extends AppCompatActivity implements RangeTimePicke
             else
                 Toast.makeText(this, "PLEASE SELECT AN ITEM", Toast.LENGTH_SHORT).show();
 
-
     }
-
 
 }

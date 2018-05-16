@@ -59,7 +59,7 @@ public class LocalService extends Service {
                 Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 PendingIntent contentIntent = null;
                 Notification notification = new Notification.Builder(context)
-                        .setSmallIcon(R.drawable.notification_logo)
+                        //.setSmallIcon(R.drawable.notification_logo)
                         .setTicker(text)
                         .setWhen(System.currentTimeMillis())
                         .setContentTitle(title)
@@ -70,7 +70,6 @@ public class LocalService extends Service {
                         .build();
 
                 mNM.notify(NOTIFICATION, notification);
-                TriggerNextAlarm();
 
             }
         };
