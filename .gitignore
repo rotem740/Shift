@@ -21,3 +21,4 @@ gradlew.bat
 .idea/gradle.xml
 .idea/gradle.xml
 .idea/misc.xml
+app/src/main/res/layout/activity_personal_time.xml

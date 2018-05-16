@@ -1,4 +1,5 @@
 package com.kalay.shift.shift;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -11,9 +12,14 @@ import android.content.IntentFilter;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Random;
 import java.util.TimerTask;
 
@@ -23,14 +29,9 @@ public class LocalService extends Service {
     private NotificationManager mNM;
     private int NOTIFICATION = 0;
 
-    private int MAXHOUR = 19;
-    private int MINHOUR = 7;
-    Intent myIntent = new Intent(this , MyNotificationManager.class);
     AlarmManager alarmManager;
     PendingIntent pintent;
-    //PendingIntent pintent = PendingIntent.getBroadcast( this, 0, new Intent("com.blah.blah.somemessage"), 0 );
-    //PendingIntent pendingIntent = PendingIntent.getService(this, 0, myIntent, 0);
-
+    int i = AlertsSaver.startKey;
 
     public class LocalBinder extends Binder {
         LocalService getService() {
@@ -40,14 +41,16 @@ public class LocalService extends Service {
 
     @Override
     public void onCreate() {
-        mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 
-        pintent = PendingIntent.getBroadcast( this, 0, new Intent("com.blah.blah.somemessage"), 0 );
+        mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        pintent = PendingIntent.getBroadcast(this, 0, new Intent("com.blah.blah.somemessage"), 0);
 
 
         BroadcastReceiver receiver = new BroadcastReceiver() {
-            @Override public void onReceive( Context context, Intent _ )
-            {
+
+            @Override
+            public void onReceive(Context context, Intent _) {
                 //context.unregisterReceiver( this ); // this == BroadcastReceiver, not Activity
                 Log.v("testAlarm","got here!");
 
@@ -71,20 +74,22 @@ public class LocalService extends Service {
 
             }
         };
-        this.registerReceiver(receiver, new IntentFilter("com.blah.blah.somemessage") );
-        TriggerNextAlarm();
+        this.registerReceiver(receiver, new IntentFilter("com.blah.blah.somemessage"));
+        TriggerTomorrowAlarmManager();
 
     }
 
-    private void TriggerNextAlarm() {
-        alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-        Calendar today = GetNotificationTime();
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, today.getTimeInMillis(), AlarmManager.INTERVAL_DAY , pintent);
+
+    private void TriggerTomorrowAlarmManager() {
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Calendar tomorrow = GetNextTime();
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, tomorrow.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pintent);
 
     }
+
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         Log.i("LocalService", "onDestroy");
     }
 
@@ -94,7 +99,7 @@ public class LocalService extends Service {
         PendingIntent contentIntent = null;
         Notification notification = new Notification.Builder(this)
                 .setTicker("Shift פועל")
-                .setSmallIcon(R.drawable.notification_permanent_logo)
+                //.setSmallIcon(R.drawable.notification_permanent_logo)
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle("Shift פועל")
                 .setContentText("ישומון ההתראות פעיל כעת")
@@ -115,7 +120,7 @@ public class LocalService extends Service {
     private final IBinder mBinder = new LocalBinder();
 
 
-    public Calendar GetNotificationTime() {
+    public Calendar GetNotificationTime(int MAXHOUR, int MINHOUR) {
         Calendar today = Calendar.getInstance();
 
         Random rnd = new Random();
@@ -132,34 +137,17 @@ public class LocalService extends Service {
         return today;
 
     }
+    public Calendar GetNextTime() {
+        Calendar nextDay = Calendar.getInstance();
+        nextDay.set(Calendar.HOUR, 0);
+        nextDay.set(Calendar.MINUTE, 0);
+        nextDay.set(Calendar.SECOND, 0);
+        // add one day to the date/calendar
+        nextDay.add(Calendar.DAY_OF_YEAR, 1);
+        Log.i("LocalService", nextDay.toString());
+        return nextDay;
 
-
-    public class MyNotificationManager extends TimerTask {
-
-         Context ctx;
-
-         MyNotificationManager(Context _ctx) {
-             ctx = _ctx;
-         }
-
-         public void run() {
-             CharSequence text = "נראה לנו שזה הזמן המתאים!";
-             CharSequence title = "מתי בפעם האחרונה יצאת לטיול?";
-             Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-             PendingIntent contentIntent = null;
-             Notification notification = new Notification.Builder(ctx)
-                        .setSmallIcon(R.drawable.notification_logo)
-                        .setTicker(text)
-                        .setWhen(System.currentTimeMillis())
-                        .setContentTitle(title)
-                        .setContentText(text)
-                        .setContentIntent(contentIntent)
-                        .setSound(soundUri)
-                        .setPriority(Notification.PRIORITY_MAX)
-                        .build();
-
-             mNM.notify(NOTIFICATION, notification);
-
-         }
     }
+
+
 }

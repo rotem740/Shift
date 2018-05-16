@@ -21,6 +21,7 @@ public class prefrencesChangesActivity extends AppCompatActivity {
 
         //read input array
         String names[] = {"גולף", "טניס", "שחייה"};
+
         for (int i = 0; i < names.length; i++) {
             //create the UI check box
             final LinearLayout ll = findViewById(R.id.linearLayoutId);

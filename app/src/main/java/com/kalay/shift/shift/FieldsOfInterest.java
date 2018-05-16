@@ -3,6 +3,7 @@ package com.kalay.shift.shift;
 import android.app.Activity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -13,6 +14,15 @@ public class FieldsOfInterest {
     private static SharedPreferencesManager sharedPreferencesManager = SharedPreferencesManager.getInstance();
     private List<String> info;
     private static final String fieldsKey = "4000";
+    private static final List<String> allFields = new ArrayList<>(Arrays.asList("Sports", "Entertainment", "Culture", "Food", "Traveling", "Personal"));
+
+    public static List<String> getAllFields() {
+            return allFields;
+    }
+
+    public static void setAllFields(List<String> allFields) {
+        allFields = allFields;
+    }
 
     public FieldsOfInterest(Activity activity, List<String> fieldsOf) {
         this.info = new ArrayList<>();
