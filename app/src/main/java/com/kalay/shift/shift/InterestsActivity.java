@@ -23,19 +23,23 @@ public class InterestsActivity extends AppCompatActivity{
         setContentView(R.layout.activity_interests);
     }
 
-    public void first_interst(View v){
+    public void first_interest(View v) {
+        Log.d("onNext","hello from on next");
         Intent intent = new Intent(getApplicationContext(), InterestTripsActivity.class);
         startActivity(intent);
     }
-    public void second_interst(View x){
+    public void second_interest(View v) {
+        Log.d("onNext","hello from on next");
         Intent intent = new Intent(getApplicationContext(), InterestCultureActivity.class);
         startActivity(intent);
     }
-    public void  third_interst(View z){
+    public void third_interest(View v) {
+        Log.d("onNext","hello from on next");
         Intent intent = new Intent(getApplicationContext(), InterestSportsActivity.class);
         startActivity(intent);
     }
-    public void fourth_interst(View y){
+    public void fourth_interest(View v) {
+        Log.d("onNext","hello from on next");
         Intent intent = new Intent(getApplicationContext(), InterestFamilyActivity.class);
         startActivity(intent);
     }
@@ -43,6 +47,12 @@ public class InterestsActivity extends AppCompatActivity{
     public void onNextInterests(View v) {
         Log.d("onNext","hello from on next");
         Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+        startActivity(intent);
+    }
+
+    public void moveBack (View v) {
+        //todo moves to PersonalInfo class
+        Intent intent = new Intent(getApplicationContext(), PersonalInfo.class);
         startActivity(intent);
     }
 
