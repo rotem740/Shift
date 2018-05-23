@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,15 +41,11 @@ public class SharedPreferencesManager {
 
     public String nextEmpty (Activity activity) {
         SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
-        int key = 1000;
-        while (true) {
-            try {
-                sharedPref.getString(Integer.toString(key), null);
-            }
-            catch (Exception e) {
-                break;
-            }
-            key++;
+        int key = AlertsSaver.startKey;
+        String data = sharedPref.getString(Integer.toString(key), null);
+        while (data != null) {
+                key++;
+                data =  sharedPref.getString(Integer.toString(key), null);
         }
         return Integer.toString(key);
     }
@@ -60,8 +58,25 @@ public class SharedPreferencesManager {
     }
 
     public String findByInfo(Activity activity, String info) {
-        //Build only!
-        return "1000";
+        int key = 1000;
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        String alert = sharedPref.getString(Integer.toString(key), null);
+        alert = alert.substring(0, alert.indexOf(","));
+        List<String> deleted = AlertsSaver.deleted;
+        while (true)  {
+            try {
+                key++;
+                if (deleted != null && !deleted.contains(key)) {
+                    String alert1 = sharedPref.getString(Integer.toString(key), null);
+                    if (alert1.equals(info))
+                        return Integer.toString(key);
+                }
+            }
+            catch (Exception e) {
+                break;
+            }
+        }
+        return "NOT EXSIST";
     }
 
     public void storeData(Activity activity, Map<String, Object> keyDataMap) {
@@ -74,6 +89,19 @@ public class SharedPreferencesManager {
             it.remove(); // avoids a ConcurrentModificationException
         }
         editor.commit();
+
     }
 
+    public String returnKey(Activity activity, String obj){
+        int key = AlertsSaver.startKey;
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        List<String> s = Arrays.asList(sharedPref.getString(Integer.toString(key), null).split(","));
+        while (s.get(0) != obj)  {
+            if (s == null)
+                return "Not Exist!";
+            key++;
+            s = Arrays.asList(sharedPref.getString(Integer.toString(key), null).split(","));
+        }
+        return Integer.toString(key);
+    }
 }
