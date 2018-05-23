@@ -2,6 +2,7 @@ package com.kalay.shift.shift;
 
 
 import android.app.Activity;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +17,10 @@ public class PersonalInfo  {
     private static int genderPlace = 1;
     private static String key = "2000";
 
-    public PersonalInfo(Activity activity, String name, String gender) {
+    public PersonalInfo(Activity activity, User u1) {
         this.info = new ArrayList<>();
-        this.info.add(name);
-        this.info.add(gender);
+        this.info.add(u1.getName());
+        this.info.add(u1.getGender());
         sharedPreferencesManager.storeData(activity, key, this.info);
     }
 

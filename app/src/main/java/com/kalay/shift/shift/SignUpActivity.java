@@ -42,6 +42,7 @@ public class SignUpActivity extends AppCompatActivity {
                     String gender = radioButton.getText().toString();
 
                     User user = new User(name, gender);
+                    new PersonalInfo(SignUpActivity.this, user);
                     break;
 
         }
