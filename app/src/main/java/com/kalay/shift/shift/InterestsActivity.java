@@ -24,7 +24,6 @@ public class InterestsActivity extends AppCompatActivity{
     }
 
     public void first_interest(View v) {
-        Log.d("onNext","hello from on next");
         Intent intent = new Intent(getApplicationContext(), InterestTripsActivity.class);
         startActivity(intent);
     }

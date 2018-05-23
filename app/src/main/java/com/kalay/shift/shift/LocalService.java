@@ -52,7 +52,6 @@ public class LocalService extends Service {
             @Override
             public void onReceive(Context context, Intent _) {
                 //context.unregisterReceiver( this ); // this == BroadcastReceiver, not Activity
-<<<<<<< HEAD
                 Log.v("testAlarm", "got here!");
 
                 Activity activity = MainActivity.currActivity;
@@ -94,7 +93,6 @@ public class LocalService extends Service {
                         mNM.notify(NOTIFICATION, notification);
                     }
                 }
-=======
                 Log.v("testAlarm","got here!");
 
                 CharSequence text = "נראה לנו שזה הזמן המתאים!";
@@ -113,7 +111,6 @@ public class LocalService extends Service {
                         .build();
 
                 mNM.notify(NOTIFICATION, notification);
->>>>>>> c4ea5c1a70ec576b560b3af46f987c3c326f5fc3
 
             }
         };

@@ -46,7 +46,7 @@ public class InterestTripsActivity  extends AppCompatActivity {
             if (c1.isChecked())
                 check_info.add(c1.getContext().toString());
         }
-        FieldsOfInterest f1 = new FieldsOfInterest(this, check_info);
+        new FieldsOfInterest(this, check_info);
         onClose(v);
     }
 }
