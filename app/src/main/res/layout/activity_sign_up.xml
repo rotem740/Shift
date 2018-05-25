@@ -8,50 +8,64 @@
 
 
     <TextView
+        android:id="@+id/textView10"
         android:layout_width="300dp"
         android:layout_height="56dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="כעת עליך להזין את פרטיך האישיים בהתאם להוראות. "
-        tools:layout_editor_absoluteX="55dp"
-        tools:layout_editor_absoluteY="28dp" />
-
-
-    <TextView
-        android:layout_width="58dp"
-        android:layout_height="28dp"
-        android:text="שם:"
-        tools:layout_editor_absoluteX="297dp"
-        tools:layout_editor_absoluteY="123dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <EditText
         android:id="@+id/editName"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="105dp"
-        tools:layout_editor_absoluteY="180dp" />
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="הכנס שם"
+        app:layout_constraintBottom_toTopOf="@+id/textView9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
 
     <TextView
+        android:id="@+id/textView9"
         android:layout_width="31dp"
         android:layout_height="27dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:text="מין:"
-        tools:layout_editor_absoluteX="331dp"
-        tools:layout_editor_absoluteY="288dp" />
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="332dp">
 
         <RadioButton
             android:id="@+id/male"
             android:layout_width="361dp"
             android:layout_height="wrap_content"
-            android:text="זכר"
             android:onClick="checkButton"
+            android:text="זכר"
             tools:layout_editor_absoluteX="241dp"
             tools:layout_editor_absoluteY="370dp" />
 
@@ -59,12 +73,11 @@
             android:id="@+id/female"
             android:layout_width="363dp"
             android:layout_height="wrap_content"
-            android:text="נקבה"
             android:onClick="checkButton"
+            android:text="נקבה"
             tools:layout_editor_absoluteX="61dp"
             tools:layout_editor_absoluteY="370dp" />
-    </RadioGroup
-        >
+    </RadioGroup>
 
 
     <Button
@@ -75,7 +88,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:onClick="onNextSignUp"
+        android:onClick="checkButton"
         android:text="הרשמה"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

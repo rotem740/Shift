@@ -12,14 +12,13 @@
 
         <activity android:name=".AddPersonalTime"/>
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".InterestsActivity" />
         <activity android:name=".HomePageActivity" />
         <activity android:name=".interests.InterestSportsActivity"/>
         <activity android:name=".interests.InterestCultureActivity" />
         <activity android:name=".interests.InterestTripsActivity" />
         <activity android:name=".interests.InterestFamilyActivity" />
-        <activity android:name=".InterestsActivity">
-
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

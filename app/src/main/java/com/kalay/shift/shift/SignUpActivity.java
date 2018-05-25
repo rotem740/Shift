@@ -30,7 +30,6 @@ public class SignUpActivity extends AppCompatActivity {
     public void checkButton(View v){
         int radioId =  radioGroup.getCheckedRadioButtonId();
         radioButton = findViewById(radioId);
-
     bRegister = (Button) findViewById(R.id.bRegister);
     bRegister.setOnClickListener(new View.OnClickListener() {
         @Override
@@ -48,6 +47,8 @@ public class SignUpActivity extends AppCompatActivity {
         }
     };
     });
+        Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+        startActivity(intent);
     }
 }
 
