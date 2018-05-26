@@ -22,24 +22,21 @@
             android:id="@+id/button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="changeTimes"
             android:text="שינוי שעות ההתראות" />
-
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="שינוי ימי ההתראות" />
 
         <Button
             android:id="@+id/button5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="changeInterests"
             android:text="שינוי תחומי עניין" />
 
         <Button
             android:id="@+id/button6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="addNotifications"
             android:text="הוספת התראה" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

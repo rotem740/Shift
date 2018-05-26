@@ -47,5 +47,6 @@ public class InterestSportsActivity  extends AppCompatActivity {
                 check_info.add(c1.getContext().toString());
         }
         FieldsOfInterest f1 = new FieldsOfInterest(this, check_info);
+        finish();
     }
 }

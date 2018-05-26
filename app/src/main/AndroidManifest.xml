@@ -14,6 +14,8 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".InterestsActivity" />
         <activity android:name=".HomePageActivity" />
+        <activity android:name=".prefrencesChangesActivity" />
+        <activity android:name=".SetAlert" />
         <activity android:name=".interests.InterestSportsActivity"/>
         <activity android:name=".interests.InterestCultureActivity" />
         <activity android:name=".interests.InterestTripsActivity" />

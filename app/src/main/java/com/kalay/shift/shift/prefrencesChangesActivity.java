@@ -15,9 +15,8 @@ public class prefrencesChangesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prefrences_changes);
-
         //read input array
-        String names[] = {"גולף", "טניס", "שחייה"};
+        String names[] = {"ספורט", "טיולים", "משפחה"};
 
         for (int i = 0; i < names.length; i++) {
             //create the UI check box
@@ -36,6 +35,6 @@ public class prefrencesChangesActivity extends AppCompatActivity {
             if (c1.isChecked())
                 check_info.add(c1.getContext().toString());
         }
-        FieldsOfInterest f1 = new FieldsOfInterest(this, check_info);
+        new FieldsOfInterest(this, check_info);
     }
 }

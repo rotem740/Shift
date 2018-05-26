@@ -47,7 +47,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     };
     });
-        Intent intent = new Intent(getApplicationContext(), HomePageActivity.class);
+        Intent intent = new Intent(getApplicationContext(), InterestsActivity.class);
         startActivity(intent);
     }
 }
